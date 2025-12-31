@@ -1,75 +1,123 @@
-import { Button } from "./ui/button"
+import { Eye, EyeOff, User } from "lucide-react";
+import { Button } from "./ui/button";
 import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "./ui/card"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
-
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useState, type FormEvent } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 
 export function LoginCard() {
-    return (
-        <Card className="w-full max-w-sm border-0 shadow-none">
-            <CardHeader>
-                <CardTitle>Entre já!</CardTitle>
-                <CardDescription>
+  const [openEyes, setEyes] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const nav = useNavigate()
+  const {login} = useAuth()
 
-                </CardDescription>
 
-            </CardHeader>
-            <CardContent>
-                <form>
-                    <div className="flex flex-col gap-6">
 
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input className="    border-0 
-    border-b 
-    border-gray-300 
-    rounded-none 
-    focus:border-blue-900 
-    focus:ring-0"
-                                id="email"
-                                type="email"
-                                placeholder="a@exemplo.com"
-                                required
-                            />
-                        </div>
-                        <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Senha</Label>
+ const onLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-                            </div>
-                            <Input className="    border-0 
-    border-b 
-    border-gray-300 
-    rounded-none 
-    focus:border-blue-900 
-    focus:ring-0"
-                                id="password" type="password" required />
-                        </div>
 
-                    </div>
+    try {
+        await login({email, password})
+        toast.success("Login feito com sucesso")
+        nav("/library", {replace: true})
+    }
+    catch(e: unknown) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        toast.error((e as any).response?.data?.message)
+    }
+    
 
-                </form>
-            </CardContent>
-            <CardFooter className="flex-col gap-2">
-                <Button type="submit" className="w-full bg-indigo-950/80 ">
-                    Cadastrar
-                </Button>
+    
+ }
 
-                <CardAction className="flex items-center justify-center gap-0 ml-13">
-                    <Label htmlFor="login">Não possui conta?</Label>
-                    <Button variant="link" >Cadastre-se já!</Button>
-                </CardAction>
+  return (
+    <Card className="w-full  max-w-[60%] border border-border bg-background shadow-sm">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-4xl text-indigo-800/60 font-semibold tracking-tight">
+          Entrar na plataforma
+        </CardTitle>
+        <CardDescription className="text-muted-foreground">
+          Acesse sua conta para continuar
+        </CardDescription>
+      </CardHeader>
 
-            </CardFooter>
-        </Card>
-    )
+      <CardContent>
+        <form onSubmit={onLogin} className="space-y-6">
+          {/* Email */}
+          <div className="space-y-2">
+            <Label className="text-foreground/70" htmlFor="email">
+              <User size={17} /> E-mail
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="seu@email.com"
+              className="
+                text-foreground/70
+                border-border
+                bg-transparent
+                focus-visible:ring-0
+              "
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Senha */}
+          <div className="space-y-2">
+            <Label className="text-foreground/70 " htmlFor="password">
+              <div onClick={() => setEyes(prev => !prev)} className="flex cursor-pointer items-center gap-2">
+                {!openEyes ?  <EyeOff size={17} /> : <Eye size={17}/> }
+                Senha
+               
+              </div>
+            </Label>
+            <Input
+              placeholder="Ift749@"
+              id="password"
+              type={!openEyes ? "password" : "text"}
+              className="
+                text-foreground/70
+                border-border
+                bg-transparent
+                focus-visible:ring-0
+              "
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+              <Button
+              variant={"default"}
+          type="submit"
+          className="w-full "
+        >
+          Entrar
+        </Button>
+        </form>
+      </CardContent>
+
+      <CardFooter className="flex flex-col gap-4">
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+          <span>Não possui conta?</span>
+          <Button variant="link" className="px-0 text-indigo-800/70">
+            Cadastre-se
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
+  );
 }

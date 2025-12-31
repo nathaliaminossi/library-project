@@ -1,3 +1,5 @@
+import { use } from "react"
+import { useAuth } from "../context/AuthContext"
 import {
   Avatar,
   AvatarFallback,
@@ -12,6 +14,9 @@ import {
 } from "./ui/dropdown-menu"
 
 export function UserMenu() {
+  const {user} = useAuth()
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,7 +27,7 @@ export function UserMenu() {
           </Avatar>
 
           <span className="hidden sm:block text-sm font-medium text-neutral-50">
-            Nathalia Minossi
+            {user?.name ?? ""} 
           </span>
         </button>
       </DropdownMenuTrigger>

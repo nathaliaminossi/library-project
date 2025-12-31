@@ -93,7 +93,7 @@ export default function Library() {
                             alt="Biblioteca Virtual"
                             className="h-7 w-7 object-contain"
                         />
-                        Biblioteca Virtual
+                        MyLibrary
                     </div>
                     <ul className="hidden md:flex gap-6 text-sm text-white/70">
                         <li className="flex items-center gap-2 hover:text-white cursor-pointer">
@@ -125,8 +125,6 @@ export default function Library() {
 
                 </div>
             </header>
-
-
 
 
             <section className="pt-24 pb-28 text-center relative absolute inset-0 bg-gradient-to-b from-indigo-900/60 to-transparent">

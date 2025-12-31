@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext.tsx'
 import Library from './pages/Library.tsx'
 import Register from './pages/Register.tsx'
 import Login from './pages/Login.tsx'
+import {Toaster} from "sonner"
 import './global.css'
 
 
@@ -13,6 +14,9 @@ import './global.css'
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+      <Toaster
+      position='top-right'
+      />
       <AuthProvider>
         <Routes>
           {/* rotas que não respeitam o layout */}
