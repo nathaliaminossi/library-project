@@ -1,12 +1,11 @@
 
 import { Pencil, Trash2 } from "lucide-react"
-import type { Book } from "../../types/book"
+import type { Book } from "../types/book"
 
 interface BookCardProps {
     book: Book
     onDelete: (id: string) => void
     onEdit: (book: Book) => void
-
 }
 const statusStyles = {
     lido: "bg-green-100 text-green-700",
@@ -14,24 +13,31 @@ const statusStyles = {
     "quero-ler": "bg-yellow-100 text-yellow-700",
 }
 
+interface EditBookInfoProps {
+  open: boolean
+  book: Book | null
+  onClose: () => void
+  onSave: (book: Book) => void
+}
 
-export function BookCard({ book, onDelete, onEdit }: BookCardProps) {
+
+export function EditBookInfo({ book, onDelete, onEdit }: BookCardProps) {
 
 
 
     return (
         <div className="group relative">
-
-
+            {/* AÇÕES */}
             <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition">
                 <button
-                    onClick={() => { onEdit(book) }}
+                    onClick={() => {
+                        console.log("EDITAR:", book)
+                        onEdit(book)
+                    }}
                     className="p-1 rounded bg-white shadow hover:bg-slate-100"
 
                 >
-
                     <Pencil size={14} />
-
                 </button>
 
                 <button
@@ -43,15 +49,15 @@ export function BookCard({ book, onDelete, onEdit }: BookCardProps) {
             </div>
 
             {/* CAPA */}
-            <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow-sm group-hover:shadow-lg transition ">
+            <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow-sm group-hover:shadow-lg transition">
                 {book.coverUrl ? (
                     <img
                         src={book.coverUrl}
                         alt={book.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
+                        className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                     />
                 ) : (
-                    <div className="h-full w-full flex items-center justify-center text-xs text-muted-foreground ">
+                    <div className="h-full w-full flex items-center justify-center text-xs text-muted-foreground">
                         Sem capa
                     </div>
                 )}
@@ -62,8 +68,6 @@ export function BookCard({ book, onDelete, onEdit }: BookCardProps) {
                 <p className="text-sm font-medium line-clamp-2">{book.title}</p>
                 <p className="text-xs text-muted-foreground">{book.author}</p>
                 <p className="text-xs">{book.genre}</p>
-                 <p className="text-xs text-muted-foreground">{book.edition}</p>
-
 
                 {book.status && (
                     <span className="inline-block text-xs rounded px-2 py-0.5 bg-primary/10 text-primary">
