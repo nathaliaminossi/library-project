@@ -3,8 +3,7 @@ export type BookStatus = "lido" | "lendo" | "quero-ler"
 
 export interface Book {
 
-
-  id: string
+  idBook?: number
   title: string
   author: string
   edition: string
@@ -12,8 +11,7 @@ export interface Book {
   publisher: string
   category: string
   publicationDate: string
-  image: string
-  genre: string
-  coverUrl?: string
-  status: string
+  image?: string | null
+  gender?: string | null
+  status?: string
 }

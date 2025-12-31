@@ -1,76 +1,154 @@
-
-import { Pencil, Trash2 } from "lucide-react"
+import { Pencil, Trash2, Image as ImageIcon, BookOpen, User } from "lucide-react"
 import type { Book } from "../../types/book"
+import { EditBookForm } from "./BookForm"
 
 interface BookCardProps {
-    book: Book
-    onDelete: (id: string) => void
-    onEdit: (book: Book) => void
-
+  book: Book
+  onDelete: (id: string) => void
+  onEdit: (book: Book) => void
 }
-const statusStyles = {
-    lido: "bg-green-100 text-green-700",
-    lendo: "bg-blue-100 text-blue-700",
-    "quero-ler": "bg-yellow-100 text-yellow-700",
-}
-
 
 export function BookCard({ book, onDelete, onEdit }: BookCardProps) {
+  return (
+    <div className="group  relative">
+      {/* Card container */}
+      <div
+        className="
+          relative overflow-hidden rounded-2xl
+          border border-border/60 bg-background
+          shadow-sm transition
+          hover:-translate-y-0.5 hover:shadow-xl
+          h-[440px]
+        "
+      >
+        {/* subtle shine */}
+        <div
+          className="
+            pointer-events-none absolute inset-0 opacity-0 transition
+            group-hover:opacity-100
+            bg-radial-[ellipse_at_top] from-indigo-500/10 via-transparent to-transparent
+          "
+        />
 
+        {/* Ações */}
+        <div
+          className="
+            absolute top-2 right-2 z-10 flex gap-1
+            opacity-0 translate-y-1 transition
+            group-hover:opacity-100 group-hover:translate-y-0
+          "
+        >   
+          <EditBookForm onEdit={onEdit} book={book}>
+          <button
+            onClick={() => onEdit(book)}
+            className="
+              inline-flex items-center justify-center
+              h-8 w-8 rounded-xl
+              bg-background/80 backdrop-blur
+              border border-border/60
+              shadow-sm
+              hover:bg-indigo-50 hover:border-indigo-200
+              transition
+            "
+            aria-label="Editar livro"
+            title="Editar"
+          >
+            <Pencil size={15} className="text-indigo-950/80" />
+          </button>
+          </EditBookForm  >
 
-
-    return (
-        <div className="group relative">
-
-
-            <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition">
-                <button
-                    onClick={() => { onEdit(book) }}
-                    className="p-1 rounded bg-white shadow hover:bg-slate-100"
-
-                >
-
-                    <Pencil size={14} />
-
-                </button>
-
-                <button
-                    onClick={() => onDelete(book.id)}
-                    className="p-1 rounded bg-white shadow hover:bg-red-100 text-red-600"
-                >
-                    <Trash2 size={14} />
-                </button>
-            </div>
-
-            {/* CAPA */}
-            <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow-sm group-hover:shadow-lg transition ">
-                {book.coverUrl ? (
-                    <img
-                        src={book.coverUrl}
-                        alt={book.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
-                    />
-                ) : (
-                    <div className="h-full w-full flex items-center justify-center text-xs text-muted-foreground ">
-                        Sem capa
-                    </div>
-                )}
-            </div>
-
-            {/* INFO */}
-            <div className="mt-2 space-y-0.5">
-                <p className="text-sm font-medium line-clamp-2">{book.title}</p>
-                <p className="text-xs text-muted-foreground">{book.author}</p>
-                <p className="text-xs">{book.genre}</p>
-                 <p className="text-xs text-muted-foreground">{book.edition}</p>
-
-
-                {book.status && (
-                    <span className="inline-block text-xs rounded px-2 py-0.5 bg-primary/10 text-primary">
-                        {book.status}
-                    </span>
-                )}
-            </div>
+          <button
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onClick={() => onDelete(String((book as any).idBook))}
+            className="
+              inline-flex items-center justify-center
+              h-8 w-8 rounded-xl
+              bg-background/80 backdrop-blur
+              border border-border/60
+              shadow-sm
+              hover:bg-red-50 hover:border-red-200
+              transition
+            "
+            aria-label="Excluir livro"
+            title="Excluir"
+          >
+            <Trash2 size={15} className="text-red-600" />
+          </button>
         </div>
-    )
+
+        {/* CAPA */}
+        <div className="relative aspect-2/3 w-full overflow-hidden bg-muted">
+          {/* Placeholder elegante */}
+          <div
+            className="
+              absolute inset-0
+              flex flex-col items-center justify-center gap-2
+              text-muted-foreground
+              bg-linear-to-b from-muted to-muted/40
+            "
+          >
+            <div className="rounded-xl border border-border/60 bg-background/70 backdrop-blur px-3 py-2 shadow-sm">
+            {book.image ? (
+                <img src={book.image} alt="" />
+            ) : (
+                <div className="flex items-center gap-2">
+                <ImageIcon size={16} />
+                <span className="text-xs">Sem capa</span>
+              </div>
+            )}
+              
+            </div>
+          </div>
+
+          {/* Vinheta para leitura */}
+          <div className="pointer-events-none absolute inset-0 shadow-[inset_0_-50px_60px_-40px_rgba(0,0,0,0.45)]" />
+
+          {/* Badge de edição */}
+          {book.edition ? (
+            <div className="absolute left-2 top-2">
+              <span
+                className="
+                  inline-flex items-center gap-1
+                  rounded-full px-2 py-1
+                  text-[11px] font-medium
+                  bg-background/80 backdrop-blur
+                  border border-border/60
+                "
+              >
+                <BookOpen  size={12} />
+                {book.edition}
+              </span>
+            </div>
+          ) : null}
+        </div>
+
+        {/* INFO */}
+        <div className="p-3">
+          <p className="text-sm font-semibold leading-snug line-clamp-2">
+            {book.title}
+          </p>
+
+          <div className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <User size={12} />
+            <span className="line-clamp-1">{book.author}</span>
+          </div>
+
+          {/* Linha auxiliar (ex.: volume/categoria) */}
+          <div className="mt-2 flex items-center justify-between">
+            <span className="text-[11px] text-muted-foreground/80">
+              {book.volume ? `Vol. ${book.volume}` : "—"}
+            </span>
+
+            {book.publisher ? (
+              <span className="text-[11px] text-muted-foreground/80 line-clamp-1">
+                {book.publisher}
+              </span>
+            ) : (
+              <span className="text-[11px] text-muted-foreground/60"> </span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }

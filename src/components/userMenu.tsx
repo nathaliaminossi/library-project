@@ -1,4 +1,3 @@
-import { use } from "react"
 import { useAuth } from "../context/AuthContext"
 import {
   Avatar,
@@ -27,11 +26,10 @@ export function UserMenu() {
           </Avatar>
 
           <span className="hidden sm:block text-sm font-medium text-neutral-50">
-            {user?.name ?? ""} 
+            {user?.name ?? "Nathalia Minossi"} 
           </span>
         </button>
       </DropdownMenuTrigger>
-
       <DropdownMenuContent align="end">
         <DropdownMenuItem>Perfil</DropdownMenuItem>
         <DropdownMenuItem>Configurações</DropdownMenuItem>
