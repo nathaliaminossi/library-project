@@ -44,7 +44,7 @@ export function LoginCard() {
  }
 
   return (
-    <Card className="w-full  max-w-[60%] border border-border bg-background shadow-sm">
+    <Card className="w-full max-w-[90%]  md:max-w-[60%] border border-border bg-background shadow-sm">
       <CardHeader className="space-y-1">
         <CardTitle className="text-4xl text-indigo-800/60 font-semibold tracking-tight">
           Entrar na plataforma
