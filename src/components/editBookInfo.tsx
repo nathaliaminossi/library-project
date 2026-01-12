@@ -7,18 +7,8 @@ interface BookCardProps {
     onDelete: (id: string) => void
     onEdit: (book: Book) => void
 }
-const statusStyles = {
-    lido: "bg-green-100 text-green-700",
-    lendo: "bg-blue-100 text-blue-700",
-    "quero-ler": "bg-yellow-100 text-yellow-700",
-}
 
-interface EditBookInfoProps {
-  open: boolean
-  book: Book | null
-  onClose: () => void
-  onSave: (book: Book) => void
-}
+
 
 
 export function EditBookInfo({ book, onDelete, onEdit }: BookCardProps) {
@@ -41,7 +31,7 @@ export function EditBookInfo({ book, onDelete, onEdit }: BookCardProps) {
                 </button>
 
                 <button
-                    onClick={() => onDelete(book.id)}
+                    onClick={() => onDelete(String(book.idBook))}
                     className="p-1 rounded bg-white shadow hover:bg-red-100 text-red-600"
                 >
                     <Trash2 size={14} />
@@ -50,9 +40,9 @@ export function EditBookInfo({ book, onDelete, onEdit }: BookCardProps) {
 
             {/* CAPA */}
             <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow-sm group-hover:shadow-lg transition">
-                {book.coverUrl ? (
+                {book.image ? (
                     <img
-                        src={book.coverUrl}
+                        src={book.image!}
                         alt={book.title}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                     />
@@ -67,7 +57,7 @@ export function EditBookInfo({ book, onDelete, onEdit }: BookCardProps) {
             <div className="mt-2 space-y-0.5">
                 <p className="text-sm font-medium line-clamp-2">{book.title}</p>
                 <p className="text-xs text-muted-foreground">{book.author}</p>
-                <p className="text-xs">{book.genre}</p>
+                <p className="text-xs">{book.gender}</p>
 
                 {book.status && (
                     <span className="inline-block text-xs rounded px-2 py-0.5 bg-primary/10 text-primary">

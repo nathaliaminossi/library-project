@@ -3,15 +3,15 @@ import {
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
-import { Button } from "./ui/button"
-import { ChevronDown } from "lucide-react"
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { ChevronDown } from "lucide-react";
 
 interface FilterDropdownProps {
-  label: string
-  options: string[]
-  value: string[]
-  onChange: (values: string[]) => void
+  label: string;
+  options: string[];
+  value: string[];
+  onChange: (values: string[]) => void;
 }
 
 export function FilterSelect({
@@ -22,41 +22,107 @@ export function FilterSelect({
 }: FilterDropdownProps) {
   function toggleOption(option: string) {
     if (value.includes(option)) {
-      onChange(value.filter(v => v !== option))
+      onChange(value.filter((v) => v !== option));
     } else {
-      onChange([...value, option])
+      onChange([...value, option]);
     }
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
+        <Button
           variant="outline"
           size="sm"
-          className="rounded-full px-4 gap-2"
+          className="
+            h-9
+            rounded-xl
+            px-4
+            gap-2
+            bg-indigo-900/40
+            border border-indigo-500/60
+            text-white
+            hover:bg-indigo-500/30
+            hover:text-white
+            transition
+          "
         >
-          {label}
+          <span className="truncate max-w-[120px]">{label}</span>
+
           {value.length > 0 && (
-            <span className="text-xs bg-primary text-primary-foreground rounded-full px-2">
+            <span
+              className="
+                ml-1
+                rounded-full
+                bg-indigo-500
+                px-2
+                text-[11px]
+                font-medium
+                text-white
+              "
+            >
               {value.length}
             </span>
           )}
-          <ChevronDown size={14} />
+
+          <ChevronDown size={14} className="opacity-70" />
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start" className="w-48">
-        {options.map(option => (
-          <DropdownMenuCheckboxItem
-            key={option}
-            checked={value.includes(option)}
-            onCheckedChange={() => toggleOption(option)}
-          >
-            {option}
-          </DropdownMenuCheckboxItem>
+      <DropdownMenuContent
+        side="bottom"
+        align="start"
+        sideOffset={8}
+        className="
+          max-h-64
+          overflow-y-auto
+          w-48
+          scroll-custom
+          bg-indigo-900/90
+          border border-indigo-500/40
+          text-white
+          "
+      >
+        {options.length === 0 && (
+          <div className="px-3 py-2 text-xs text-white/60">Nenhuma opção</div>
+        )}
+
+        {options.map((option) => (
+       <DropdownMenuCheckboxItem
+  key={option}
+  checked={value.includes(option)}
+  onCheckedChange={() => toggleOption(option)}
+  className="
+    relative
+    flex
+    items-center
+    gap-2
+
+    cursor-pointer
+    rounded-md
+
+    px-3
+    py-2
+    pl-8
+
+    text-sm
+    text-white/90
+
+    hover:bg-indigo-500/20
+    hover:text-white
+
+    focus:bg-indigo-500/30
+    focus:text-white
+
+    data-[state=checked]:bg-indigo-500/40
+    data-[state=checked]:text-white
+  "
+>
+  {option}
+</DropdownMenuCheckboxItem>
+
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

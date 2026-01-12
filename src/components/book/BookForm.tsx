@@ -74,7 +74,7 @@ export function BookForm({ onAddBook }: BookFormProps) {
   const [publicationDate, setPublicationDate] = useState("")
   const [image, setImage] = useState("")
   const [isbn, setIsbn] = useState("")
-  const [file, setFile] = useState<File | null>(null)
+  // const [file, setFile] = useState<File | null>(null)
 
   const [coverPreview, setCoverPreview] = useState<string | null>(null)
 
@@ -86,7 +86,7 @@ export function BookForm({ onAddBook }: BookFormProps) {
   function handleCoverChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    setFile(file)
+    // setFile(file)
 
     const previewUrl = URL.createObjectURL(file)
     setCoverPreview(previewUrl)
@@ -95,7 +95,7 @@ export function BookForm({ onAddBook }: BookFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    const newBook: Book = {
+    const newBook:  Book = {
       title,
       author,
       edition,
@@ -104,6 +104,8 @@ export function BookForm({ onAddBook }: BookFormProps) {
       category,
       publicationDate,
       image,
+      gender: genre,
+      status
     }
 
 
@@ -149,8 +151,10 @@ export function BookForm({ onAddBook }: BookFormProps) {
           bg-white/95 backdrop-blur-md
           rounded-2xl
           shadow-2xl
+          overflow-auto
+          h-[90%]
           border border-indigo-100
-        "
+          "
       >
         <DialogHeader className="space-y-1">
           <DialogTitle className="text-xl font-semibold text-indigo-950 flex items-center gap-2">
@@ -388,7 +392,7 @@ export function EditBookForm({book, children, onEdit}: EditBookFormProps ) {
   const [publicationDate, setPublicationDate] = useState(book.publicationDate )
   const [image, setImage] = useState("")
   const [isbn, setIsbn] = useState("")
-  const [file, setFile] = useState<File | null>(null)
+  // const [file, setFile] = useState<File | null>(null)
 
   const [coverPreview, setCoverPreview] = useState<string | null>(null)
 
@@ -400,7 +404,7 @@ export function EditBookForm({book, children, onEdit}: EditBookFormProps ) {
   function handleCoverChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    setFile(file)
+    // setFile(file)
 
     const previewUrl = URL.createObjectURL(file)
     setCoverPreview(previewUrl)
@@ -451,6 +455,8 @@ export function EditBookForm({book, children, onEdit}: EditBookFormProps ) {
           bg-white/95 backdrop-blur-md
           rounded-2xl
           shadow-2xl
+          overflow-auto
+          h-[90%]
           border border-indigo-100
         "
       >

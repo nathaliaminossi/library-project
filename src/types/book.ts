@@ -1,5 +1,5 @@
+import type { Label } from "./label"
 
-export type BookStatus = "lido" | "lendo" | "quero-ler"
 
 export interface Book {
 
@@ -12,6 +12,7 @@ export interface Book {
   category: string
   publicationDate: string
   image?: string | null
-  gender?: string | null
+  gender?: string 
   status?: string
+  labels?: Label[]
 }
